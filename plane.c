@@ -83,7 +83,7 @@ plane_process_render(void)
 void
 plane_render_beam(struct render_obj *enemy)
 {
-     int beamy = 0;
+     int beamy = -BEAM_H;
      SDL_Rect r =
      {
           .x = fs.plane.geo.x + (PLANE_W >> 1) - 3,
