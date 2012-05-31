@@ -8,6 +8,7 @@
 
 #include "fshark.h"
 
+#define FULL_HEALTH (200)
 #define BEAM_RELOAD_TIMER (5)
 
 void game_init(void);

@@ -75,7 +75,7 @@ ui_health_bar(void)
 {
      int bcol = 0x00AA00;
      int shift_frame = (fs.flags & FS_STATE_DAMAGE ? 4 : 0 );
-     int barw = (fs.health > 0 ? fs.health * 2 : 0);
+     int barw = (fs.health > 0 ? fs.health : 0);
 
      /*
       * Frame geo: make it bigger at damage moment,
@@ -99,9 +99,9 @@ ui_health_bar(void)
      };
 
      /* Bar color, depend of health state */
-     if(fs.health > 0 && fs.health <= 33)
+     if(fs.health > 0 && fs.health <= 66)
           bcol = 0xDD0000;
-     else if(fs.health > 33 && fs.health <= 66)
+     else if(fs.health > 66 && fs.health <= 133)
           bcol = 0xDDDD00;
 
      /*

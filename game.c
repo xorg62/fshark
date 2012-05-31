@@ -15,7 +15,7 @@ void
 game_init(void)
 {
      fs.score = fs.nfire = fs.accuracy = fs.row = 0;
-     fs.health = 100;
+     fs.health = FULL_HEALTH;
 }
 
 void
