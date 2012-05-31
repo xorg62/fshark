@@ -13,7 +13,7 @@
 #define ROCKET_H (6)
 #define ROCKET_W (2)
 
-#define SPAWN_TIMER (RAND(5, 40))
+#define SPAWN_TIMER (RAND(20, 60))
 #define SPAWN_FIGHTER_TIMER (RAND(50, 200))
 #define ROCKET_SPAWN_TIMER (10)
 
