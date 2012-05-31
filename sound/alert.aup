@@ -1,0 +1,18 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE project PUBLIC "-//audacityproject-1.3.0//DTD//EN" "http://audacity.sourceforge.net/xml/audacityproject-1.3.0.dtd" >
+<project xmlns="http://audacity.sourceforge.net/xml/" projname="alert_data" version="1.3.0" audacityversion="2.0.0" sel0="0.0269597232" sel1="0.0269597232" vpos="0" h="0.0000000000" zoom="1224.0481740482" rate="22050.0">
+	<tags>
+		<tag name="Software" value="GoldWave (C) Chris S. Craig, http://www.goldwave.com"/>
+		<tag name="YEAR" value="2004-08-20"/>
+	</tags>
+	<wavetrack name="alert" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="22050" gain="1.0" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="594">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000485.au" len="594" min="-0.281708" max="0.215179" rms="0.011563"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+</project>
