@@ -49,7 +49,8 @@ game_accuracy_process(void)
      return fs.accuracy;
 }
 
-static void
+
+void
 game_frag(struct render_obj *r)
 {
      struct render_obj *ro;
@@ -122,6 +123,8 @@ game_tesla_weapon(void)
           .x = fs.plane.geo.x - 116,
           .y = fs.plane.geo.y - 110,
      };
+
+     fs.flags |= FS_STATE_TESLA;
 
      /* Kaboom! */
      Mix_PlayChannel(-1, fs.snd.tesla, 0);

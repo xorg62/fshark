@@ -44,6 +44,9 @@ enemy_spawn(void)
      ro->timer = ROCKET_SPAWN_TIMER;
 
      fs.enemy.release_timer = SPAWN_TIMER;
+
+     if(fs.flags & FS_STATE_TESLA)
+          game_frag(ro);
 }
 
 static void
@@ -63,6 +66,9 @@ enemy_spawn_fighter(void)
      ro->flags |= RENDER_OBJ_FRAGABLE;
 
      fs.enemy.fighter_timer = SPAWN_FIGHTER_TIMER;
+
+     if(fs.flags & FS_STATE_TESLA)
+          game_frag(ro);
 }
 
 static void

@@ -37,6 +37,7 @@ struct fshark
 #define FS_STATE_DAMAGE 0x02
 #define FS_PAUSE        0x04
 #define FS_HIDE_UI      0x08
+#define FS_STATE_TESLA  0x10
      Flags flags;
 
      /* Root surface, where everything is blitted */
@@ -52,13 +53,12 @@ struct fshark
 
      /* Loaded sound */
      struct
-     {Mix_Chunk *tesla;
-
+     {
           Mix_Chunk *impressive;
           Mix_Chunk *alert;
           Mix_Chunk *pause;
           Mix_Chunk *beam;
-          //Mix_Chunk *tesla;
+          Mix_Chunk *tesla;
      } snd;
 
      struct
