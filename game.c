@@ -124,7 +124,7 @@ game_tesla_weapon(void)
 
      ro = render_obj_new(fs.plane.tesla, &r, ROTesla);
      ro->flags |= RENDER_OBJ_EPHEMERAL | RENDER_OBJ_FLASH;
-     ro->timer = 20;
+     ro->timer = 30;
 
      STAILQ_FOREACH(ro, &fs.render_objs, next)
           if(ro->flags & RENDER_OBJ_FRAGABLE)

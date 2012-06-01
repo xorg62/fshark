@@ -23,9 +23,9 @@ enum render_obj_type
 struct render_obj
 {
      SDL_Surface *s;
-     SDL_Rect geo;
+     SDL_Rect geo, sgeo;
      enum render_obj_type type;
-#define RENDER_OBJ_EPHEMERAL 0x01 /* use timer */
+#define RENDER_OBJ_EPHEMERAL 0x01 /* Timer use as life time */
 #define RENDER_OBJ_FRAGABLE  0x02 /* Die at beam collision */
 #define RENDER_OBJ_FLASH     0x04 /* Object is flashing */
      Flags flags;

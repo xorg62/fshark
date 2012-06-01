@@ -12,6 +12,16 @@ render_obj_init(void)
      STAILQ_INIT(&fs.render_objs);
 }
 
+static void
+render_obj_fix_sgeo(struct render_obj *r)
+{
+     if(r->geo.x < 0)
+          r->sgeo.x = -r->geo.x;
+
+     if(r->geo.y < 0)
+          r->sgeo.y = -r->geo.y;
+}
+
 struct render_obj*
 render_obj_new(SDL_Surface *s, SDL_Rect *geo, enum render_obj_type type)
 {
@@ -26,6 +36,12 @@ render_obj_new(SDL_Surface *s, SDL_Rect *geo, enum render_obj_type type)
      r->timer = 0;
      r->blit = 1;
 
+     r->sgeo.x = r->sgeo.y = 0;
+     r->sgeo.w = s->w;
+     r->sgeo.h = s->h;
+
+     render_obj_fix_sgeo(r);
+
      return r;
 }
 
@@ -36,8 +52,10 @@ render_obj_render(void)
 
      STAILQ_FOREACH(r, &fs.render_objs, next)
      {
+          render_obj_fix_sgeo(r);
+
           if(r->blit) /* always true if no RENDER_OBJ_FLASH flag */
-               SDL_BlitSurface(r->s, NULL, fs.root, &r->geo);
+               SDL_BlitSurface(r->s, &r->sgeo, fs.root, &r->geo);
 
           if(r->flags & RENDER_OBJ_EPHEMERAL)
           {
