@@ -123,7 +123,8 @@ game_tesla_weapon(void)
      ui_msg_new(0x0000FF, "Tesla Weapon!");
 
      ro = render_obj_new(fs.plane.tesla, &r, ROTesla);
-     ro->flags |= RENDER_OBJ_EPHEMERAL | RENDER_OBJ_FLASH;
+     ro->flags |= RENDER_OBJ_EPHEMERAL | RENDER_OBJ_FLASH | RENDER_OBJ_SHAKE;
+     ro->shake_intensity = 4;
      ro->timer = 30;
 
      STAILQ_FOREACH(ro, &fs.render_objs, next)
@@ -142,6 +143,7 @@ game_damage(int damage, SDL_Rect *e_geo)
 
           fs.health -= damage;
           fs.plane.collision_timer = 8;
+
           d = render_obj_new(fs.plane.sdamage, &fs.plane.geo, ROTrail);
           d->flags |= RENDER_OBJ_EPHEMERAL;
 

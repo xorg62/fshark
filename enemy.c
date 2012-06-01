@@ -33,12 +33,13 @@ enemy_spawn(void)
      if(!TIMER_IS_DONE(fs.enemy.release_timer))
           return;
 
-     r.x = RAND(0, WIDTH);
+     r.x = RAND(0, WIDTH - ENEMY_SIZE);
      r.y = -5;
      r.w = r.h = ENEMY_SIZE;
 
      ro = render_obj_new(fs.enemy.s, &r, ROEnemy);
-     ro->flags |= RENDER_OBJ_FRAGABLE;
+     ro->flags |= RENDER_OBJ_FRAGABLE | RENDER_OBJ_SHAKE;
+     ro->shake_intensity = 5;
      ro->timer = ROCKET_SPAWN_TIMER;
 
      fs.enemy.release_timer = SPAWN_TIMER;

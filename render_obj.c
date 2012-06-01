@@ -22,6 +22,13 @@ render_obj_fix_sgeo(struct render_obj *r)
           r->sgeo.y = -r->geo.y;
 }
 
+static void
+render_obj_process_shake(struct render_obj *r)
+{
+     r->geo.x += RAND(-r->shake_intensity, r->shake_intensity);
+     r->geo.y += RAND(-r->shake_intensity, r->shake_intensity);
+}
+
 struct render_obj*
 render_obj_new(SDL_Surface *s, SDL_Rect *geo, enum render_obj_type type)
 {
@@ -35,6 +42,7 @@ render_obj_new(SDL_Surface *s, SDL_Rect *geo, enum render_obj_type type)
      r->flags = 0;
      r->timer = 0;
      r->blit = 1;
+     r->shake_intensity = 0;
 
      r->sgeo.x = r->sgeo.y = 0;
      r->sgeo.w = s->w;
@@ -67,6 +75,9 @@ render_obj_render(void)
 
           if(r->flags & RENDER_OBJ_FLASH)
                r->blit = !r->blit;
+
+          if(r->flags & RENDER_OBJ_SHAKE)
+               render_obj_process_shake(r);
      }
 }
 

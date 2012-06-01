@@ -28,9 +28,11 @@ struct render_obj
 #define RENDER_OBJ_EPHEMERAL 0x01 /* Timer use as life time */
 #define RENDER_OBJ_FRAGABLE  0x02 /* Die at beam collision */
 #define RENDER_OBJ_FLASH     0x04 /* Object is flashing */
+#define RENDER_OBJ_SHAKE     0x08 /* Shake randomly the object */
      Flags flags;
      Timer timer; /* <<< For limited life time objects or repeating task */
      bool blit; /* <<< For flash state */
+     int shake_intensity;
      STAILQ_ENTRY(render_obj) next;
 };
 
