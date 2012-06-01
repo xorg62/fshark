@@ -52,11 +52,17 @@ game_accuracy_process(void)
 static void
 game_frag(struct render_obj *r)
 {
+     struct render_obj *ro;
+
      ++fs.score;
      ++fs.row;
 
      /* Replace enemy object by explosion */
-     render_obj_new(fs.enemy.sboom, &r->geo, ROBeam);
+     ro = render_obj_new(fs.enemy.sboom, &r->geo, ROExplosion);
+     ro->flags |= RENDER_OBJ_EPHEMERAL | RENDER_OBJ_FLASH;
+     ro->shake_intensity = 2;
+     ro->timer = 10;
+
      render_obj_remove(r, true);
 
      /* Show row indication, when its not a "Row of x" message */
@@ -124,7 +130,7 @@ game_tesla_weapon(void)
 
      ro = render_obj_new(fs.plane.tesla, &r, ROTesla);
      ro->flags |= RENDER_OBJ_EPHEMERAL | RENDER_OBJ_FLASH | RENDER_OBJ_SHAKE;
-     ro->shake_intensity = 4;
+     ro->shake_intensity = 2;
      ro->timer = 30;
 
      STAILQ_FOREACH(ro, &fs.render_objs, next)

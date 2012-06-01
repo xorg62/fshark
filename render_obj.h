@@ -17,6 +17,7 @@ enum render_obj_type
      ROETrail,
      RORocket,
      ROTesla,
+     ROExplosion,
      ROLast,
 };
 
@@ -33,6 +34,8 @@ struct render_obj
      Timer timer; /* <<< For limited life time objects or repeating task */
      bool blit; /* <<< For flash state */
      int shake_intensity;
+     int shake_phase; /* Slow down shake moves */
+     Timer shake_timer;
      STAILQ_ENTRY(render_obj) next;
 };
 

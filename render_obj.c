@@ -25,8 +25,13 @@ render_obj_fix_sgeo(struct render_obj *r)
 static void
 render_obj_process_shake(struct render_obj *r)
 {
+     if(!TIMER_IS_DONE(r->shake_timer))
+          return;
+
      r->geo.x += RAND(-r->shake_intensity, r->shake_intensity);
      r->geo.y += RAND(-r->shake_intensity, r->shake_intensity);
+
+     r->shake_timer = r->shake_phase;
 }
 
 struct render_obj*
@@ -43,6 +48,7 @@ render_obj_new(SDL_Surface *s, SDL_Rect *geo, enum render_obj_type type)
      r->timer = 0;
      r->blit = 1;
      r->shake_intensity = 0;
+     r->shake_timer = 0;
 
      r->sgeo.x = r->sgeo.y = 0;
      r->sgeo.w = s->w;
@@ -60,6 +66,12 @@ render_obj_render(void)
 
      STAILQ_FOREACH(r, &fs.render_objs, next)
      {
+          if(r->flags & RENDER_OBJ_SHAKE)
+          {
+               render_obj_process_shake(r);
+               timer_process(&r->shake_timer);
+          }
+
           render_obj_fix_sgeo(r);
 
           if(r->blit) /* always true if no RENDER_OBJ_FLASH flag */
@@ -75,9 +87,6 @@ render_obj_render(void)
 
           if(r->flags & RENDER_OBJ_FLASH)
                r->blit = !r->blit;
-
-          if(r->flags & RENDER_OBJ_SHAKE)
-               render_obj_process_shake(r);
      }
 }
 

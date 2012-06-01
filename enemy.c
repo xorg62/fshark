@@ -34,12 +34,13 @@ enemy_spawn(void)
           return;
 
      r.x = RAND(0, WIDTH - ENEMY_SIZE);
-     r.y = -5;
+     r.y = 0;
      r.w = r.h = ENEMY_SIZE;
 
      ro = render_obj_new(fs.enemy.s, &r, ROEnemy);
      ro->flags |= RENDER_OBJ_FRAGABLE | RENDER_OBJ_SHAKE;
-     ro->shake_intensity = 5;
+     ro->shake_intensity = 4;
+     ro->shake_phase = 1;
      ro->timer = ROCKET_SPAWN_TIMER;
 
      fs.enemy.release_timer = SPAWN_TIMER;
