@@ -24,6 +24,7 @@ render_obj_new(SDL_Surface *s, SDL_Rect *geo, enum render_obj_type type)
      r->type = type;
      r->flags = 0;
      r->timer = 0;
+     r->blit = 1;
 
      return r;
 }
@@ -35,7 +36,8 @@ render_obj_render(void)
 
      STAILQ_FOREACH(r, &fs.render_objs, next)
      {
-          SDL_BlitSurface(r->s, NULL, fs.root, &r->geo);
+          if(r->blit) /* always true if no RENDER_OBJ_FLASH flag */
+               SDL_BlitSurface(r->s, NULL, fs.root, &r->geo);
 
           if(r->flags & RENDER_OBJ_EPHEMERAL)
           {
@@ -44,6 +46,9 @@ render_obj_render(void)
                if(TIMER_IS_DONE(r->timer))
                     render_obj_remove(r, true);
           }
+
+          if(r->flags & RENDER_OBJ_FLASH)
+               r->blit = !r->blit;
      }
 }
 

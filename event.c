@@ -36,6 +36,8 @@ event_keydown(SDL_Event *ev)
           fs.flags ^= FS_RUNNING;
      else if(ev->key.keysym.sym == SDLK_u)
           fs.flags ^= FS_HIDE_UI;
+     else if(ev->key.keysym.sym == SDLK_w)
+          game_tesla_weapon();
 }
 
 void

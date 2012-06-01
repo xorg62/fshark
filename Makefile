@@ -18,7 +18,7 @@ SRC=		fshark.c	\
 
 BIN=		fshark
 
-CFLAGS=		-Wall ${SDL_CFLAGS}
+CFLAGS=		-Wall ${SDL_CFLAGS} -g
 LDFLAGS=	${SDL_LIBS} -lSDL_image -lSDL_ttf -lSDL_gfx -lSDL_mixer
 
 fshark: ${SRC}

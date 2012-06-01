@@ -16,6 +16,7 @@ enum render_obj_type
      ROTrail,
      ROETrail,
      RORocket,
+     ROTesla,
      ROLast,
 };
 
@@ -26,8 +27,10 @@ struct render_obj
      enum render_obj_type type;
 #define RENDER_OBJ_EPHEMERAL 0x01 /* use timer */
 #define RENDER_OBJ_FRAGABLE  0x02 /* Die at beam collision */
+#define RENDER_OBJ_FLASH     0x04 /* Object is flashing */
      Flags flags;
      Timer timer; /* <<< For limited life time objects or repeating task */
+     bool blit; /* <<< For flash state */
      STAILQ_ENTRY(render_obj) next;
 };
 

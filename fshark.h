@@ -52,17 +52,19 @@ struct fshark
 
      /* Loaded sound */
      struct
-     {
+     {Mix_Chunk *tesla;
+
           Mix_Chunk *impressive;
           Mix_Chunk *alert;
           Mix_Chunk *pause;
           Mix_Chunk *beam;
+          //Mix_Chunk *tesla;
      } snd;
 
      struct
      {
           SDL_Rect geo;
-          SDL_Surface *s, *sdamage, *beam, *trail;
+          SDL_Surface *s, *sdamage, *beam, *trail, *tesla;
           Timer beam_timer, collision_timer;
      } plane;
 

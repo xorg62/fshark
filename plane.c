@@ -23,6 +23,7 @@ plane_init(void)
      fs.plane.sdamage = IMG_Load("img/plane_damage.png");
      fs.plane.beam = IMG_Load("img/beam.png");
      fs.plane.trail = IMG_Load("img/chemtrail.png");
+     fs.plane.tesla = IMG_Load("img/tesla.png");
 }
 
 void
@@ -32,6 +33,7 @@ plane_free(void)
      SDL_FreeSurface(fs.plane.beam);
      SDL_FreeSurface(fs.plane.trail);
      SDL_FreeSurface(fs.plane.sdamage);
+     SDL_FreeSurface(fs.plane.tesla);
 }
 
 void

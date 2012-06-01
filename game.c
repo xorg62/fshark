@@ -36,6 +36,10 @@ game_row_award(void)
 int
 game_accuracy_process(void)
 {
+     /* NO division by 0 */
+     if(!fs.nfire)
+          return 0;
+
      fs.accuracy = (float)(fs.score - (fs.nfire - fs.score)) / (float)fs.nfire;
      fs.accuracy *= 100;
 
@@ -58,8 +62,9 @@ game_frag(struct render_obj *r)
      /* Show row indication, when its not a "Row of x" message */
      if(fs.row % 5 && fs.row % 10)
           ui_msg_new(0x00BBAA, "Enemy fragged! (%d)", fs.row);
-}
 
+     game_row_award();
+}
 
 void
 game_fire(void)
@@ -90,20 +95,40 @@ game_fire(void)
                }
           }
 
-     /* Are you accurate? */
-     if(fs.nfire)
-          game_accuracy_process();
-
      fs.plane.beam_timer = BEAM_RELOAD_TIMER;
+
+     game_accuracy_process();
 
      /* Row of frag set back to 0 if not hitted */
      if(!hit)
           fs.row = 0;
-     else
-          game_row_award();
 
      /* Render plane beam */
      plane_render_beam(hit ? ro : NULL);
+}
+
+void
+game_tesla_weapon(void)
+{
+     struct render_obj *ro;
+     SDL_Rect r =
+     {
+          .x = fs.plane.geo.x - 116,
+          .y = fs.plane.geo.y - 110,
+     };
+
+     /* Kaboom! */
+     Mix_PlayChannel(-1, fs.snd.tesla, 0);
+
+     ui_msg_new(0x0000FF, "Tesla Weapon!");
+
+     ro = render_obj_new(fs.plane.tesla, &r, ROTesla);
+     ro->flags |= RENDER_OBJ_EPHEMERAL | RENDER_OBJ_FLASH;
+     ro->timer = 20;
+
+     STAILQ_FOREACH(ro, &fs.render_objs, next)
+          if(ro->flags & RENDER_OBJ_FRAGABLE)
+               game_frag(ro);
 }
 
 void

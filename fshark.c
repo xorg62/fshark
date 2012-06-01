@@ -24,10 +24,7 @@ sdl_init(void)
      }
 
      if(Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096))
-     {
           fprintf(stderr, "Mix_OpenAudio: %s\n", SDL_GetError());
-          exit(EXIT_FAILURE);
-     }
 
      if(TTF_Init() < 0)
      {
@@ -51,6 +48,7 @@ sdl_init(void)
      fs.snd.alert = Mix_LoadWAV("sound/alert.wav");
      fs.snd.pause = Mix_LoadWAV("sound/pause.wav");
      fs.snd.beam  = Mix_LoadWAV("sound/beam.wav");
+     fs.snd.tesla = Mix_LoadWAV("sound/tesla.wav");
 }
 
 static void
@@ -64,6 +62,7 @@ sdl_quit(void)
      Mix_FreeChunk(fs.snd.alert);
      Mix_FreeChunk(fs.snd.pause);
      Mix_FreeChunk(fs.snd.beam);
+     Mix_FreeChunk(fs.snd.tesla);
      Mix_CloseAudio();
 
      SDL_Quit();
@@ -101,6 +100,7 @@ main(int argc, char **argv)
      plane_free();
      map_free();
      enemy_free();
+     render_obj_flush_list();
 
      sdl_quit();
 

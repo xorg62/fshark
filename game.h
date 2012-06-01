@@ -15,6 +15,7 @@ void game_init(void);
 int game_accuracy_process(void);
 void game_row_award(void);
 void game_fire(void);
+void game_tesla_weapon(void);
 void game_damage(int damage, SDL_Rect *e_geo);
 void game_enemy_missed(struct render_obj *r);
 void game_pause(void);
