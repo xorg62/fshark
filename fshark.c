@@ -87,13 +87,13 @@ main(int argc, char **argv)
      fs.flags |= FS_RUNNING;
 
      sdl_init();
+     render_obj_init();
      game_init();
      map_init();
      plane_init();
      enemy_init();
      event_init();
      ui_init();
-     render_obj_init();
 
      run_loop();
 

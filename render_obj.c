@@ -30,6 +30,7 @@ render_obj_new(SDL_Surface *s, SDL_Rect *geo, enum render_obj_type type)
      STAILQ_INSERT_TAIL(&fs.render_objs, r, next);
 
      r->s = s;
+     r->sshadow = NULL;
      r->geo = *geo;
      r->type = type;
      r->flags = 0;
@@ -91,6 +92,20 @@ render_obj_process_flash(struct render_obj *r)
           r->blit = !r->blit;
 }
 
+static void
+render_obj_process_shadow(struct render_obj *r)
+{
+     if(r->flags & RENDER_OBJ_SHADOW)
+     {
+          SDL_Rect shadow_rect = r->geo;
+
+          shadow_rect.x += 20;
+          shadow_rect.y += 20;
+
+          SDL_BlitSurface(r->sshadow, NULL, fs.root, &shadow_rect);
+     }
+}
+
 void
 render_obj_render(void)
 {
@@ -102,6 +117,7 @@ render_obj_render(void)
           render_obj_fix_sgeo(r);
           render_obj_process_ephemeral(r);
           render_obj_process_flash(r);
+          render_obj_process_shadow(r);
 
           if(r->blit) /* always true if no RENDER_OBJ_FLASH flag */
                SDL_BlitSurface(r->s, &r->sgeo, fs.root, &r->geo);

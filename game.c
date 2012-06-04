@@ -82,7 +82,7 @@ void
 game_fire(void)
 {
      bool hit = false;
-     int x_aim = fs.plane.geo.x + (PLANE_W / 2);
+     int x_aim = fs.plane.plane->geo.x + (PLANE_W / 2);
      struct render_obj *ro;
 
      /* Check if reload is done */
@@ -99,7 +99,7 @@ game_fire(void)
           if(ro->flags & RENDER_OBJ_FRAGABLE)
           {
                if((x_aim >= ro->geo.x && x_aim < ro->geo.x + (ENEMY_SIZE - 3))
-                  && (ro->geo.y <= fs.plane.geo.y))
+                  && (ro->geo.y <= fs.plane.plane->geo.y))
                {
                     game_frag(ro);
                     hit = true;
@@ -123,8 +123,8 @@ game_tesla_weapon(void)
      struct render_obj *ro;
      SDL_Rect r =
      {
-          .x = fs.plane.geo.x - 116,
-          .y = fs.plane.geo.y - 110,
+          .x = fs.plane.plane->geo.x - 116,
+          .y = fs.plane.plane->geo.y - 110,
      };
 
      /* No more tesla weapon */
@@ -156,16 +156,17 @@ game_tesla_weapon(void)
 void
 game_damage(int damage, SDL_Rect *e_geo)
 {
+     SDL_Rect *g = &fs.plane.plane->geo;
      /* Collision check */
-     if((fs.plane.geo.x <= e_geo->x + e_geo->w && fs.plane.geo.x + PLANE_W >= e_geo->x)
-        && (fs.plane.geo.y <= e_geo->y + e_geo->h && fs.plane.geo.y + PLANE_H >= e_geo->y))
+     if((g->x <= e_geo->x + e_geo->w && g->x + PLANE_W >= e_geo->x)
+        && (g->y <= e_geo->y + e_geo->h && g->y + PLANE_H >= e_geo->y))
      {
           struct render_obj *d;
 
           fs.health -= damage;
           fs.plane.collision_timer = 8;
 
-          d = render_obj_new(fs.plane.sdamage, &fs.plane.geo, ROTrail);
+          d = render_obj_new(fs.plane.sdamage, g, ROTrail);
           d->flags |= RENDER_OBJ_EPHEMERAL;
 
           fs.flags |= FS_STATE_DAMAGE;

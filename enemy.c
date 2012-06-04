@@ -21,6 +21,7 @@ enemy_init(void)
      fs.enemy.sboom = IMG_Load("img/sun.png");
      fs.enemy.srocket = IMG_Load("img/rocket.png");
      fs.enemy.sfighter = IMG_Load("img/fighter.png");
+     fs.enemy.sshfighter = IMG_Load("img/fightershadow.png");
      fs.enemy.sufo = IMG_Load("img/ufo.png");
 }
 
@@ -58,12 +59,13 @@ enemy_spawn_fighter(void)
      if(!TIMER_IS_DONE(fs.enemy.fighter_timer))
           return;
 
-     r.x = fs.plane.geo.x;
+     r.x = fs.plane.plane->geo.x;
      r.y = -5;
      r.w = r.h = ENEMY_SIZE;
 
      ro = render_obj_new(fs.enemy.sfighter, &r, ROFighter);
-     ro->flags |= RENDER_OBJ_FRAGABLE;
+     ro->flags |= RENDER_OBJ_FRAGABLE | RENDER_OBJ_SHADOW;
+     ro->sshadow = fs.enemy.sshfighter;
 
      fs.enemy.fighter_timer = SPAWN_FIGHTER_TIMER;
 
@@ -75,8 +77,8 @@ static void
 enemy_spawn_rocket(struct render_obj *r)
 {
      /* Check if enemy is above the plane, to spawn a rocket */
-     if(r->geo.x <= fs.plane.geo.x + PLANE_W - 1
-        && r->geo.x + ENEMY_SIZE >= fs.plane.geo.x)
+     if(r->geo.x <= fs.plane.plane->geo.x + PLANE_W - 1
+        && r->geo.x + ENEMY_SIZE >= fs.plane.plane->geo.x)
      {
           SDL_Rect rgeo = r->geo;
 
@@ -206,6 +208,7 @@ enemy_free(void)
      SDL_FreeSurface(fs.enemy.sboom);
      SDL_FreeSurface(fs.enemy.srocket);
      SDL_FreeSurface(fs.enemy.sfighter);
+     SDL_FreeSurface(fs.enemy.sshfighter);
      SDL_FreeSurface(fs.enemy.sufo);
 }
 

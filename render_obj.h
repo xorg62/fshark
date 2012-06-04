@@ -10,6 +10,7 @@
 
 enum render_obj_type
 {
+     ROPlane,
      ROBeam,
      ROEnemy,
      ROFighter,
@@ -23,13 +24,14 @@ enum render_obj_type
 
 struct render_obj
 {
-     SDL_Surface *s;
+     SDL_Surface *s, *sshadow;
      SDL_Rect geo, sgeo;
      enum render_obj_type type;
 #define RENDER_OBJ_EPHEMERAL 0x01 /* Timer use as life time */
 #define RENDER_OBJ_FRAGABLE  0x02 /* Die at beam collision */
 #define RENDER_OBJ_FLASH     0x04 /* Object is flashing */
 #define RENDER_OBJ_SHAKE     0x08 /* Shake randomly the object */
+#define RENDER_OBJ_SHADOW    0x10 /* Use shadow surface ptr to draw a shadow */
      Flags flags;
      Timer timer; /* <<< For limited life time objects or repeating task */
      bool blit; /* <<< For flash state */

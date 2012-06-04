@@ -63,8 +63,8 @@ struct fshark
 
      struct
      {
-          SDL_Rect geo;
-          SDL_Surface *s, *sdamage, *beam, *trail, *tesla;
+          struct render_obj *plane;
+          SDL_Surface *s, *sshadow, *sdamage, *beam, *trail, *tesla;
           Timer beam_timer, collision_timer;
      } plane;
 
@@ -77,7 +77,7 @@ struct fshark
 
      struct
      {
-          SDL_Surface *s, *sboom, *srocket, *sfighter;
+          SDL_Surface *s, *sboom, *srocket, *sfighter, *sshfighter;
           SDL_Surface *sufo;
           Timer release_timer, fighter_timer;
      } enemy;
