@@ -98,9 +98,8 @@ render_obj_render(void)
 
      STAILQ_FOREACH(r, &fs.render_objs, next)
      {
-          render_obj_fix_sgeo(r);
           render_obj_process_shake(r);
-          //render_obj_fix_sgeo(r);
+          render_obj_fix_sgeo(r);
           render_obj_process_ephemeral(r);
           render_obj_process_flash(r);
 

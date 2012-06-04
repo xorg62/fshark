@@ -100,6 +100,7 @@ main(int argc, char **argv)
      plane_free();
      map_free();
      enemy_free();
+     ui_free();
      render_obj_flush_list();
 
      sdl_quit();

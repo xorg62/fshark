@@ -41,11 +41,11 @@ struct fshark
      Flags flags;
 
      /* Root surface, where everything is blitted */
-     SDL_Surface *root;
+     SDL_Surface *root, *teslaicon;
      TTF_Font *font, *mfont;
 
      /* Game values */
-     int score, nfire, row, health;
+     int score, nfire, row, health, ntesla;
      float accuracy;
 
      /* Array of event handle functions to associate with event type */

@@ -16,6 +16,7 @@ struct console_msg
 };
 
 void ui_init(void);
+void ui_free(void);
 void ui_render(void);
 struct console_msg *ui_msg_new(int color, const char *format, ...);
 void ui_msg_remove(struct console_msg *m);

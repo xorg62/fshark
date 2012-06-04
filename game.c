@@ -15,6 +15,7 @@ void
 game_init(void)
 {
      fs.score = fs.nfire = fs.accuracy = fs.row = 0;
+     fs.ntesla = 5;
      fs.health = FULL_HEALTH;
 }
 
@@ -46,6 +47,9 @@ game_accuracy_process(void)
      if(fs.accuracy < 0)
           fs.accuracy = 0;
 
+     if(fs.accuracy > 100)
+          fs.accuracy = 100;
+
      return fs.accuracy;
 }
 
@@ -70,6 +74,7 @@ game_frag(struct render_obj *r)
      if(fs.row % 5 && fs.row % 10)
           ui_msg_new(0x00BBAA, "Enemy fragged! (%d)", fs.row);
 
+     game_accuracy_process();
      game_row_award();
 }
 
@@ -104,8 +109,6 @@ game_fire(void)
 
      fs.plane.beam_timer = BEAM_RELOAD_TIMER;
 
-     game_accuracy_process();
-
      /* Row of frag set back to 0 if not hitted */
      if(!hit)
           fs.row = 0;
@@ -124,7 +127,16 @@ game_tesla_weapon(void)
           .y = fs.plane.geo.y - 110,
      };
 
+     /* No more tesla weapon */
+     if(!fs.ntesla)
+     {
+          ui_msg_new(0x0000FF, "No more Tesla");
+          return;
+     }
+
      fs.flags |= FS_STATE_TESLA;
+     ++fs.nfire;
+     --fs.ntesla;
 
      /* Kaboom! */
      Mix_PlayChannel(-1, fs.snd.tesla, 0);

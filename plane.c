@@ -49,7 +49,7 @@ plane_trail(void)
      struct render_obj *ro;
      SDL_Rect r =
      {
-          .x = fs.plane.geo.x + 7,
+          .x = fs.plane.geo.x + 9,
           .y = fs.plane.geo.y + 20,
           TRAIL_W,
           TRAIL_H
@@ -57,14 +57,16 @@ plane_trail(void)
 
      /* Left trail */
      ro = render_obj_new(fs.plane.trail, &r, ROTrail);
-     ro->flags |= RENDER_OBJ_EPHEMERAL;
+     ro->flags |= RENDER_OBJ_EPHEMERAL | RENDER_OBJ_SHAKE;
      ro->timer = TRAIL_LENGTH;
+     ro->shake_intensity = 1;
 
      /* Right trail */
-     r.x += 16;
+     r.x += 13;
      ro = render_obj_new(fs.plane.trail, &r, ROTrail);
-     ro->flags |= RENDER_OBJ_EPHEMERAL;
+     ro->flags |= RENDER_OBJ_EPHEMERAL | RENDER_OBJ_SHAKE;
      ro->timer = TRAIL_LENGTH;
+     ro->shake_intensity = 1;
 
      /* Move previous trails */
      STAILQ_FOREACH(ro, &fs.render_objs, next)

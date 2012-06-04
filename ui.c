@@ -13,6 +13,14 @@ ui_init(void)
 {
      SLIST_INIT(&fs.console_msgs);
      ui_msg_new(0xFF00FF, "Welcome to fshark!");
+
+     fs.teslaicon = IMG_Load("img/bolt.png");
+}
+
+void
+ui_free(void)
+{
+     SDL_FreeSurface(fs.teslaicon);
 }
 
 struct console_msg*
@@ -120,6 +128,20 @@ ui_health_bar(void)
      SDL_FillRect(fs.root, &hf, bcol);
 }
 
+static void
+ui_tesla(void)
+{
+     SDL_Color col =  { .r = 0xFF, .g = 0xFF, .b = 0xFF };
+     SDL_Rect r =
+     {
+          .x = 428,
+          .y = 438
+     };
+
+     sdl_print_text(fs.root, fs.font, &col, 465, 450, "x%d", fs.ntesla);
+     SDL_BlitSurface(fs.teslaicon, NULL, fs.root, &r);
+}
+
 void
 ui_render(void)
 {
@@ -134,5 +156,8 @@ ui_render(void)
 
      /* Health bar */
      ui_health_bar();
+
+     /* Tesla weapon count */
+     ui_tesla();
 }
 
