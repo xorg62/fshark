@@ -38,6 +38,7 @@ render_obj_new(SDL_Surface *s, SDL_Rect *geo, enum render_obj_type type)
      r->blit = 1;
      r->shake_intensity = 0;
      r->shake_timer = 0;
+     r->altitude = 20;
 
      r->sgeo.x = r->sgeo.y = 0;
      r->sgeo.w = s->w;
@@ -99,8 +100,8 @@ render_obj_process_shadow(struct render_obj *r)
      {
           SDL_Rect shadow_rect = r->geo;
 
-          shadow_rect.x += 20;
-          shadow_rect.y += 20;
+          shadow_rect.x += r->altitude;
+          shadow_rect.y += r->altitude;
 
           SDL_BlitSurface(r->sshadow, NULL, fs.root, &shadow_rect);
      }

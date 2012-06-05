@@ -10,5 +10,6 @@
 
 void event_init(void);
 void event_loop(void);
+void event_menu_loop(void);
 
 #endif /* EVENT_H */

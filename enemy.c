@@ -18,6 +18,7 @@ enemy_init(void)
      fs.enemy.fighter_timer = SPAWN_FIGHTER_TIMER;
 
      fs.enemy.s = IMG_Load("img/turret.png");
+     fs.enemy.sshadow = IMG_Load("img/turretshadow.png");
      fs.enemy.sboom = IMG_Load("img/sun.png");
      fs.enemy.srocket = IMG_Load("img/rocket.png");
      fs.enemy.sfighter = IMG_Load("img/fighter.png");
@@ -39,10 +40,12 @@ enemy_spawn(void)
      r.w = r.h = ENEMY_SIZE;
 
      ro = render_obj_new(fs.enemy.s, &r, ROEnemy);
-     ro->flags |= RENDER_OBJ_FRAGABLE | RENDER_OBJ_SHAKE;
+     ro->flags |= RENDER_OBJ_FRAGABLE | RENDER_OBJ_SHAKE | RENDER_OBJ_SHADOW;
      ro->shake_intensity = 4;
      ro->shake_phase = 1;
      ro->timer = ROCKET_SPAWN_TIMER;
+     ro->sshadow = fs.enemy.sshadow;
+     ro->altitude = 10;
 
      fs.enemy.release_timer = SPAWN_TIMER;
 
@@ -205,6 +208,7 @@ void
 enemy_free(void)
 {
      SDL_FreeSurface(fs.enemy.s);
+     SDL_FreeSurface(fs.enemy.sshadow);
      SDL_FreeSurface(fs.enemy.sboom);
      SDL_FreeSurface(fs.enemy.srocket);
      SDL_FreeSurface(fs.enemy.sfighter);

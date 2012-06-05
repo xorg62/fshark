@@ -38,11 +38,14 @@ struct fshark
 #define FS_PAUSE        0x04
 #define FS_HIDE_UI      0x08
 #define FS_STATE_TESLA  0x10
+#define FS_STATE_MENU   0x20
+#define FS_BACK_MENU    0x40
      Flags flags;
 
      /* Root surface, where everything is blitted */
-     SDL_Surface *root, *teslaicon;
+     SDL_Surface *root, *teslaicon, *menu;
      TTF_Font *font, *mfont;
+     bool chmenu;
 
      /* Game values */
      int score, nfire, row, health, ntesla;
@@ -50,6 +53,7 @@ struct fshark
 
      /* Array of event handle functions to associate with event type */
      void (*handlers[SDL_NUMEVENTS])(SDL_Event *ev);
+     void (*menu_handlers[SDL_NUMEVENTS])(SDL_Event *ev);
 
      /* Loaded sound */
      struct
@@ -77,7 +81,7 @@ struct fshark
 
      struct
      {
-          SDL_Surface *s, *sboom, *srocket, *sfighter, *sshfighter;
+          SDL_Surface *s, *sshadow, *sboom, *srocket, *sfighter, *sshfighter;
           SDL_Surface *sufo;
           Timer release_timer, fighter_timer;
      } enemy;

@@ -38,8 +38,6 @@ sdl_init(void)
           exit(EXIT_FAILURE);
      }
 
-     SDL_ShowCursor(SDL_DISABLE);
-
      /* Load media */
      fs.font = TTF_OpenFont("font/font.ttf", 20);
      fs.mfont = TTF_OpenFont("font/font.ttf", 12);
@@ -71,6 +69,8 @@ sdl_quit(void)
 static void
 run_loop(void)
 {
+     SDL_ShowCursor(SDL_DISABLE);
+
      while(fs.flags & FS_RUNNING)
      {
           event_loop();
@@ -87,15 +87,26 @@ main(int argc, char **argv)
      fs.flags |= FS_RUNNING;
 
      sdl_init();
-     render_obj_init();
-     game_init();
-     map_init();
-     plane_init();
-     enemy_init();
      event_init();
+     render_obj_init();
+     plane_init();
      ui_init();
 
-     run_loop();
+     /* UI + MENU */
+     ui_init();
+
+     while(fs.flags & FS_BACK_MENU)
+     {
+          ui_menu();
+
+          /* Game begin here */
+          game_init();
+          map_init();
+          enemy_init();
+          game_init();
+
+          run_loop();
+     }
 
      plane_free();
      map_free();

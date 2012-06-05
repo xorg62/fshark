@@ -7,6 +7,7 @@
 
 #include "ui.h"
 #include "util.h"
+#include "event.h"
 
 void
 ui_init(void)
@@ -15,12 +16,16 @@ ui_init(void)
      ui_msg_new(0xFF00FF, "Welcome to fshark!");
 
      fs.teslaicon = IMG_Load("img/bolt.png");
+     fs.menu = IMG_Load("img/menu.png");
+
+     fs.flags |= FS_BACK_MENU;
 }
 
 void
 ui_free(void)
 {
      SDL_FreeSurface(fs.teslaicon);
+     SDL_FreeSurface(fs.menu);
 }
 
 struct console_msg*
@@ -140,6 +145,57 @@ ui_tesla(void)
 
      sdl_print_text(fs.root, fs.font, &col, 465, 450, "x%d", fs.ntesla);
      SDL_BlitSurface(fs.teslaicon, NULL, fs.root, &r);
+}
+
+void
+ui_menu(void)
+{
+     SDL_Event ev;
+     SDL_Color col[2] = { rgb_to_color(0xBB3333), rgb_to_color(0x333333) };
+     SDL_Rect r = { .x = 260 };
+
+     fs.flags |= FS_STATE_MENU;
+     fs.chmenu = false;
+
+     while(fs.flags & FS_STATE_MENU)
+     {
+          event_menu_loop();
+
+          SDL_BlitSurface(fs.menu, NULL, fs.root, NULL);
+
+          r.y = (!fs.chmenu) ? 200 : 240;
+
+          SDL_BlitSurface(fs.plane.s, NULL, fs.root, &r);
+
+          sdl_print_text(fs.root, fs.font, &col[fs.chmenu], 300, 210, "PLAY");
+          sdl_print_text(fs.root, fs.font, &col[!fs.chmenu], 300, 250, "QUIT");
+
+          SDL_Flip(fs.root);
+          SDL_Delay(TIMING * 2);
+     }
+}
+
+void
+ui_menu_choice(void)
+{
+     fs.flags &= ~FS_STATE_MENU;
+
+     if(fs.chmenu)
+          fs.flags &= ~(FS_RUNNING | FS_BACK_MENU);
+     else
+          fs.flags |= FS_RUNNING;
+
+     Mix_PlayChannel(-1, fs.snd.pause, 0);
+}
+
+void
+ui_menu_set_choice(bool choice)
+{
+     if(fs.chmenu == choice)
+          return;
+
+     fs.chmenu = choice;
+     Mix_PlayChannel(-1, fs.snd.alert, 0);
 }
 
 void

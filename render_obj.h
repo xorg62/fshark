@@ -38,6 +38,7 @@ struct render_obj
      int shake_intensity;
      int shake_phase; /* Slow down shake moves */
      Timer shake_timer;
+     int altitude;
      STAILQ_ENTRY(render_obj) next;
 };
 
