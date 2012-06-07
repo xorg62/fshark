@@ -10,26 +10,16 @@
 #include "ui.h"
 #include "util.h"
 
+/* init plane surfaces */
 void
 plane_init(void)
 {
-     SDL_Rect geo;
-
      fs.plane.s = IMG_Load("img/plane.png");
      fs.plane.sshadow = IMG_Load("img/planeshadow.png");
      fs.plane.sdamage = IMG_Load("img/plane_damage.png");
      fs.plane.beam = IMG_Load("img/beam.png");
      fs.plane.trail = IMG_Load("img/chemtrail.png");
      fs.plane.tesla = IMG_Load("img/tesla.png");
-
-     geo.x = WIDTH / 2;
-     geo.y = HEIGHT / 2;
-     geo.w = PLANE_W;
-     geo.h = PLANE_H;
-     fs.plane.plane = render_obj_new(fs.plane.s, &geo, ROPlane);
-     fs.plane.plane->flags |= RENDER_OBJ_SHADOW;
-     fs.plane.plane->sshadow = fs.plane.sshadow;
-     fs.plane.collision_timer = 0;
 }
 
 void
@@ -87,6 +77,9 @@ plane_process_render(void)
      /* Plane trail */
      plane_trail();
 
+     /* Remove beam objects */
+     if(TIMER_IS_DONE(fs.plane.beam_timer))
+          render_obj_flush_list_by_type(ROBeam);
 }
 
 void

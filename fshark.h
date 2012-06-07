@@ -40,10 +40,11 @@ struct fshark
 #define FS_STATE_TESLA  0x10
 #define FS_STATE_MENU   0x20
 #define FS_BACK_MENU    0x40
+#define FS_END_LOOP     0x80
      Flags flags;
 
      /* Root surface, where everything is blitted */
-     SDL_Surface *root, *teslaicon, *menu;
+     SDL_Surface *root, *teslaicon, *menu, *goframe;
      TTF_Font *font, *mfont;
      bool chmenu;
 

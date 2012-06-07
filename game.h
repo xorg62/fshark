@@ -21,5 +21,6 @@ void game_enemy_missed(struct render_obj *r);
 void game_pause(void);
 void game_process(void);
 void game_frag(struct render_obj *r);
+void game_end(void);
 
 #endif /* GAME_H */

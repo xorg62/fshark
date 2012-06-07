@@ -81,6 +81,29 @@ run_loop(void)
      }
 }
 
+static void
+end_loop(void)
+{
+     SDL_Event ev;
+
+     if(!(fs.flags & FS_END_LOOP))
+          return;
+
+     ui_end();
+
+     while(fs.flags & FS_END_LOOP)
+     {
+          while(SDL_PollEvent(&ev))
+          {
+               if(ev.type == SDL_QUIT
+                  || ev.type == SDL_KEYDOWN
+                  || ev.type == SDL_MOUSEBUTTONDOWN)
+                    fs.flags &= ~FS_END_LOOP;
+          }
+          SDL_Delay(TIMING * 2);
+     }
+}
+
 int
 main(int argc, char **argv)
 {
@@ -92,20 +115,18 @@ main(int argc, char **argv)
      plane_init();
      ui_init();
 
-     /* UI + MENU */
-     ui_init();
-
      while(fs.flags & FS_BACK_MENU)
      {
           ui_menu();
 
           /* Game begin here */
-          game_init();
           map_init();
+          game_init();
           enemy_init();
           game_init();
 
           run_loop();
+          end_loop();
      }
 
      plane_free();

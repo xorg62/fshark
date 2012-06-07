@@ -5,6 +5,7 @@
 
 #include "map.h"
 #include "fshark.h"
+#include "game.h"
 
 void
 map_init(void)
@@ -23,7 +24,7 @@ map_render(void)
 {
      /* Scroll map surface, and come back to the bottom at the end */
      if((fs.map.cropgeo.y -= MAP_SPEED) <= 0)
-          fs.map.cropgeo.y = fs.map.s->h - HEIGHT;
+          game_end();
 
      SDL_BlitSurface(fs.map.s, &fs.map.cropgeo, fs.root, &fs.map.geo);
 }

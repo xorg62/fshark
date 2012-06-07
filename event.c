@@ -12,6 +12,7 @@
 static void
 event_quit(SDL_Event *ev)
 {
+     /* Get out of all loops */
      fs.flags &= ~(FS_RUNNING | FS_STATE_MENU | FS_BACK_MENU);
 }
 
@@ -36,7 +37,7 @@ event_keydown(SDL_Event *ev)
      else if(ev->key.keysym.sym == SDLK_ESCAPE)
      {
           fs.flags &= ~FS_RUNNING;
-          fs.flags |= FS_STATE_MENU;
+          fs.flags |= (FS_STATE_MENU | FS_END_LOOP);
      }
      else if(ev->key.keysym.sym == SDLK_u)
           fs.flags ^= FS_HIDE_UI;
@@ -62,10 +63,10 @@ event_menu_keydown(SDL_Event *ev)
      if(ev->key.keysym.sym == SDLK_q || ev->key.keysym.sym == SDLK_ESCAPE)
           fs.flags &= ~(FS_RUNNING | FS_STATE_MENU | FS_BACK_MENU);
 
-     if(ev->key.keysym.sym == SDLK_UP || ev->key.keysym.sym == SDLK_DOWN)
+     else if(ev->key.keysym.sym == SDLK_UP || ev->key.keysym.sym == SDLK_DOWN)
           ui_menu_set_choice(!fs.chmenu);
 
-     if(ev->key.keysym.sym == SDLK_RETURN)
+     else if(ev->key.keysym.sym == SDLK_RETURN)
           ui_menu_choice();
 }
 

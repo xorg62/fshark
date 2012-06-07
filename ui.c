@@ -17,6 +17,7 @@ ui_init(void)
 
      fs.teslaicon = IMG_Load("img/bolt.png");
      fs.menu = IMG_Load("img/menu.png");
+     fs.goframe = IMG_Load("img/goframe.png"); /* Game over frame */
 
      fs.flags |= FS_BACK_MENU;
 }
@@ -26,6 +27,7 @@ ui_free(void)
 {
      SDL_FreeSurface(fs.teslaicon);
      SDL_FreeSurface(fs.menu);
+     SDL_FreeSurface(fs.goframe);
 }
 
 struct console_msg*
@@ -150,10 +152,10 @@ ui_tesla(void)
 void
 ui_menu(void)
 {
-     SDL_Event ev;
      SDL_Color col[2] = { rgb_to_color(0xBB3333), rgb_to_color(0x333333) };
      SDL_Rect r = { .x = 260 };
 
+     SDL_ShowCursor(SDL_ENABLE);
      fs.flags |= FS_STATE_MENU;
      fs.chmenu = false;
 
@@ -161,14 +163,18 @@ ui_menu(void)
      {
           event_menu_loop();
 
+          /* Background */
           SDL_BlitSurface(fs.menu, NULL, fs.root, NULL);
 
+          /* Selector plane */
           r.y = (!fs.chmenu) ? 200 : 240;
-
           SDL_BlitSurface(fs.plane.s, NULL, fs.root, &r);
 
           sdl_print_text(fs.root, fs.font, &col[fs.chmenu], 300, 210, "PLAY");
           sdl_print_text(fs.root, fs.font, &col[!fs.chmenu], 300, 250, "QUIT");
+
+          /* Console */
+          ui_console();
 
           SDL_Flip(fs.root);
           SDL_Delay(TIMING * 2);
@@ -196,6 +202,26 @@ ui_menu_set_choice(bool choice)
 
      fs.chmenu = choice;
      Mix_PlayChannel(-1, fs.snd.alert, 0);
+}
+
+void
+ui_end(void)
+{
+     SDL_Color grey = rgb_to_color(0xDDDDDD);
+     SDL_Color red  = rgb_to_color(0xBB0000);
+     SDL_Rect r;
+
+     r.x = 180;
+     r.y = 100;
+
+     SDL_BlitSurface(fs.goframe, NULL, fs.root, &r);
+
+     sdl_print_text(fs.root, fs.font, &red, 270, 130, "GAME OVER");
+     sdl_print_text(fs.root, fs.font, &grey, 240, 220, "Score: %.5d", fs.score);
+     sdl_print_text(fs.root, fs.font, &grey, 240, 250, "Accuracy: %.2f", fs.accuracy);
+     sdl_print_text(fs.root, fs.font, &grey, 240, 280, "Total fire: %d", fs.nfire);
+
+     SDL_Flip(fs.root);
 }
 
 void

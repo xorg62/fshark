@@ -14,9 +14,26 @@
 void
 game_init(void)
 {
+     SDL_Rect geo;
+
+     SDL_ShowCursor(SDL_DISABLE);
+
      fs.score = fs.nfire = fs.accuracy = fs.row = 0;
      fs.ntesla = 5;
      fs.health = FULL_HEALTH;
+
+     /* Clean list of everything */
+     render_obj_flush_list();
+
+     geo.x = WIDTH / 2;
+     geo.y = HEIGHT / 2;
+     geo.w = PLANE_W;
+     geo.h = PLANE_H;
+
+     fs.plane.plane = render_obj_new(fs.plane.s, &geo, ROPlane);
+     fs.plane.plane->flags |= RENDER_OBJ_SHADOW;
+     fs.plane.plane->sshadow = fs.plane.sshadow;
+     fs.plane.collision_timer = 0;
 }
 
 void
@@ -46,13 +63,11 @@ game_accuracy_process(void)
 
      if(fs.accuracy < 0)
           fs.accuracy = 0;
-
-     if(fs.accuracy > 100)
+     else if(fs.accuracy > 100)
           fs.accuracy = 100;
 
      return fs.accuracy;
 }
-
 
 void
 game_frag(struct render_obj *r)
@@ -175,6 +190,9 @@ game_damage(int damage, SDL_Rect *e_geo)
 
           /* Tic! */
           Mix_PlayChannel(-1, fs.snd.alert, 0);
+
+          if(fs.health <= 0)
+               game_end();
      }
 }
 
@@ -202,16 +220,19 @@ game_pause(void)
 }
 
 void
+game_end(void)
+{
+     fs.flags &= ~FS_RUNNING;
+     fs.flags |= FS_END_LOOP;
+}
+
+void
 game_process(void)
 {
      if(fs.flags & FS_PAUSE)
           return;
 
      map_render();
-
-     /* Remove beam objects */
-     if(TIMER_IS_DONE(fs.plane.beam_timer))
-          render_obj_flush_list_by_type(ROBeam);
 
      /* Move enemy render_obj to follow map or flying */
      enemy_process();
