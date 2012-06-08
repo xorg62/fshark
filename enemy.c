@@ -83,6 +83,7 @@ enemy_spawn_rocket(struct render_obj *r)
      if(r->geo.x <= fs.plane.plane->geo.x + PLANE_W - 1
         && r->geo.x + ENEMY_SIZE >= fs.plane.plane->geo.x)
      {
+          struct render_obj *ro;
           SDL_Rect rgeo = r->geo;
 
           rgeo.x += ENEMY_SIZE / 2;
@@ -90,7 +91,11 @@ enemy_spawn_rocket(struct render_obj *r)
           rgeo.w = ROCKET_W;
           rgeo.h = ROCKET_H;
 
-          render_obj_new(fs.enemy.srocket, &rgeo, RORocket);
+          ro = render_obj_new(fs.enemy.srocket, &rgeo, RORocket);
+          ro->flags |= RENDER_OBJ_SHADOW;
+          ro->sshadow = fs.plane.shtrail;
+          ro->altitude = 10;
+
           r->timer = ROCKET_SPAWN_TIMER;
      }
 }
@@ -126,15 +131,17 @@ enemy_fighter_trail(struct render_obj *r)
      geo.h = TRAIL_H;
 
      ro = render_obj_new(fs.plane.trail, &geo, ROETrail);
-     ro->flags |= RENDER_OBJ_EPHEMERAL;
+     ro->flags |= RENDER_OBJ_EPHEMERAL | RENDER_OBJ_SHADOW;
      ro->timer = FIGHTER_TRAIL_LENGTH;
+     ro->sshadow = fs.plane.shtrail;
 
      /* Right trail */
      geo.x += 12;
 
      ro = render_obj_new(fs.plane.trail, &geo, ROETrail);
-     ro->flags |= RENDER_OBJ_EPHEMERAL;
+     ro->flags |= RENDER_OBJ_EPHEMERAL | RENDER_OBJ_SHADOW;
      ro->timer = FIGHTER_TRAIL_LENGTH;
+     ro->sshadow = fs.plane.shtrail;
 
      /* Check plane collision with previous trails */
      STAILQ_FOREACH(ro, &fs.render_objs, next)

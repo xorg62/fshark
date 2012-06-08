@@ -118,7 +118,7 @@ game_fire(void)
                {
                     game_frag(ro);
                     hit = true;
-                    break; /* << one enemy fragged at a time */
+                    //break; /* << one enemy fragged at a time */
                }
           }
 
@@ -163,6 +163,7 @@ game_tesla_weapon(void)
      ro->shake_intensity = 2;
      ro->timer = 30;
 
+     /* frag every fragable object in list */
      STAILQ_FOREACH(ro, &fs.render_objs, next)
           if(ro->flags & RENDER_OBJ_FRAGABLE)
                game_frag(ro);
@@ -172,6 +173,7 @@ void
 game_damage(int damage, SDL_Rect *e_geo)
 {
      SDL_Rect *g = &fs.plane.plane->geo;
+
      /* Collision check */
      if((g->x <= e_geo->x + e_geo->w && g->x + PLANE_W >= e_geo->x)
         && (g->y <= e_geo->y + e_geo->h && g->y + PLANE_H >= e_geo->y))

@@ -19,6 +19,7 @@ plane_init(void)
      fs.plane.sdamage = IMG_Load("img/plane_damage.png");
      fs.plane.beam = IMG_Load("img/beam.png");
      fs.plane.trail = IMG_Load("img/chemtrail.png");
+     fs.plane.shtrail = IMG_Load("img/shtrail.png");
      fs.plane.tesla = IMG_Load("img/tesla.png");
 }
 
@@ -29,6 +30,7 @@ plane_free(void)
      SDL_FreeSurface(fs.plane.sshadow);
      SDL_FreeSurface(fs.plane.beam);
      SDL_FreeSurface(fs.plane.trail);
+     SDL_FreeSurface(fs.plane.shtrail);
      SDL_FreeSurface(fs.plane.sdamage);
      SDL_FreeSurface(fs.plane.tesla);
 }
@@ -54,16 +56,18 @@ plane_trail(void)
 
      /* Left trail */
      ro = render_obj_new(fs.plane.trail, &r, ROTrail);
-     ro->flags |= RENDER_OBJ_EPHEMERAL | RENDER_OBJ_SHAKE;
+     ro->flags |= RENDER_OBJ_EPHEMERAL | RENDER_OBJ_SHAKE | RENDER_OBJ_SHADOW;
      ro->timer = TRAIL_LENGTH;
      ro->shake_intensity = 1;
+     ro->sshadow = fs.plane.shtrail;
 
      /* Right trail */
      r.x += 13;
      ro = render_obj_new(fs.plane.trail, &r, ROTrail);
-     ro->flags |= RENDER_OBJ_EPHEMERAL | RENDER_OBJ_SHAKE;
+     ro->flags |= RENDER_OBJ_EPHEMERAL | RENDER_OBJ_SHAKE | RENDER_OBJ_SHADOW;
      ro->timer = TRAIL_LENGTH;
      ro->shake_intensity = 1;
+     ro->sshadow = fs.plane.shtrail;
 
      /* Move previous trails */
      STAILQ_FOREACH(ro, &fs.render_objs, next)

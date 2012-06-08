@@ -216,7 +216,7 @@ ui_end(void)
 
      SDL_BlitSurface(fs.goframe, NULL, fs.root, &r);
 
-     sdl_print_text(fs.root, fs.font, &red, 270, 130, "GAME OVER");
+     sdl_print_text(fs.root, fs.font, &red, 270, 130, "GAME OVER!");
      sdl_print_text(fs.root, fs.font, &grey, 240, 220, "Score: %.5d", fs.score);
      sdl_print_text(fs.root, fs.font, &grey, 240, 250, "Accuracy: %.2f", fs.accuracy);
      sdl_print_text(fs.root, fs.font, &grey, 240, 280, "Total fire: %d", fs.nfire);

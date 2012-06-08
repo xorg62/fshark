@@ -33,12 +33,12 @@ struct render_obj
 #define RENDER_OBJ_SHAKE     0x08 /* Shake randomly the object */
 #define RENDER_OBJ_SHADOW    0x10 /* Use shadow surface ptr to draw a shadow */
      Flags flags;
-     Timer timer; /* <<< For limited life time objects or repeating task */
-     bool blit; /* <<< For flash state */
+     Timer timer;                 /* For limited life time objects or repeating task */
+     bool blit;                   /* For flash state */
      int shake_intensity;
-     int shake_phase; /* Slow down shake moves */
+     int shake_phase;             /* Slow down shake moves */
      Timer shake_timer;
-     int altitude;
+     int altitude;                /* for shadow shift */
      STAILQ_ENTRY(render_obj) next;
 };
 

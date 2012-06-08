@@ -69,7 +69,7 @@ struct fshark
      struct
      {
           struct render_obj *plane;
-          SDL_Surface *s, *sshadow, *sdamage, *beam, *trail, *tesla;
+          SDL_Surface *s, *sshadow, *sdamage, *beam, *trail, *shtrail, *tesla;
           Timer beam_timer, collision_timer;
      } plane;
 
