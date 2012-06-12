@@ -141,6 +141,9 @@ game_tesla_weapon(void)
           .x = fs.plane.plane->geo.x - 116,
           .y = fs.plane.plane->geo.y - 110,
      };
+     /* Already in tesla state? */
+     if(fs.flags & FS_STATE_TESLA)
+          return;
 
      /* No more tesla weapon */
      if(!fs.ntesla)

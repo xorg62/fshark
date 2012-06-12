@@ -79,7 +79,7 @@ render_obj_process_ephemeral(struct render_obj *r)
           if(TIMER_IS_DONE(r->timer))
           {
                if(r->type == ROTesla)
-                    fs.flags ^= FS_STATE_TESLA;
+                    fs.flags &= ~FS_STATE_TESLA;
 
                render_obj_remove(r, true);
           }
