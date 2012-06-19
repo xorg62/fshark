@@ -12,7 +12,6 @@
 #include <stdbool.h>
 #include <stdarg.h>
 #include <unistd.h>
-#include <sys/queue.h>
 
 /* SDL lib */
 #include <SDL/SDL.h>
@@ -20,6 +19,10 @@
 #include <SDL/SDL_ttf.h>
 #include <SDL/SDL_keysym.h>
 #include <SDL/SDL_mixer.h>
+
+/* local lib */
+/* Normaly std but not on windows.. */
+#include "queue.h"
 
 /* Consts */
 #define WIDTH  (640)
